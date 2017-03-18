@@ -7,7 +7,8 @@ class Hand:
     hand = []
 
     def __init__(self):
-        pass
+        self.add_card(Card())
+        self.add_card(Card())
 
     def __del__(self):
         pass

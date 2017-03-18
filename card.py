@@ -13,9 +13,9 @@ class Card:
     suit = 0
     value = 0
 
-    def __init__(self):
-        self.suit = randint(0, 4)
-        self.value = randint(0, 12)
+    def __init__(self, suit = None, value = None):
+        self.suit = randint(0, 4) if (not suit) else suit
+        self.value = randint(0, 12) if (not value) else value
 
     def __del__(self):
         pass
@@ -23,8 +23,8 @@ class Card:
     @staticmethod
     def translate(g_card):
         suit = Card.SUITS[int(g_card.split(':')[0])]
-        card = Card.CARDS[int(g_card.split(':')[1])]
-        return (g_card + " of " + suit)
+        value = Card.CARDS[int(g_card.split(':')[1])]
+        return (value + " of " + suit)
 
     def show(self):
         print("Suit: " + str(self.suit) + ", Value: " + str(self.value))
