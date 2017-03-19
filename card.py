@@ -2,6 +2,8 @@
 
 from random import randint
 
+from logger import Logger
+
 
 class Card:
 
@@ -14,7 +16,7 @@ class Card:
     value = 0
 
     def __init__(self, suit = None, value = None):
-        self.suit = randint(0, 4) if (not suit) else suit
+        self.suit = randint(0, 3) if (not suit) else suit
         self.value = randint(0, 12) if (not value) else value
 
     def __del__(self):
@@ -22,8 +24,13 @@ class Card:
 
     @staticmethod
     def translate(g_card):
-        suit = Card.SUITS[int(g_card.split(':')[0])]
-        value = Card.CARDS[int(g_card.split(':')[1])]
+        return Card.to_string(g_card)
+
+    @staticmethod
+    def to_string(g_card):
+        Logger.log("Card: Printing card: [" + str(g_card.suit) + "][" + str(g_card.value) + "]")
+        suit = Card.SUITS[g_card.suit]
+        value = Card.CARDS[g_card.value]
         return (value + " of " + suit)
 
     def show(self):

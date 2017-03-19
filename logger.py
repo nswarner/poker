@@ -10,6 +10,6 @@ class Logger:
         pass
 
     @staticmethod
-    def log(self, message, directory="./poker.log"):
+    def log(message, directory="./poker.log"):
         with open(directory, "a+") as f:
             f.write(str(message) + "\n")

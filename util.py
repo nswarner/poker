@@ -1,7 +1,5 @@
 #!usr/bin/python
 
-import os
-
 from invalid_argument_exception import InvalidArgumentException
 
 
@@ -23,10 +21,14 @@ class Util:
 
     def __init__(self):
         raise RuntimeError("Cannot instantiate Util class.")
-        os._exit(0)
 
     @staticmethod
-    def convert_string_num(self, num):
-        if (num < 0 or num > 12):
+    def convert_string_num(num):
+        assert (isinstance(num, str)), "convert_string_num requires a String as argument"
+
+        num = num.lower()
+
+        if (num in Util.TRANSLATE.keys()):
+            return Util.TRANSLATE[num]
+        else:
             raise InvalidArgumentException("Argument num is not within range (0,12)")
-        return (Util.TRANSLATE[num])

@@ -3,8 +3,8 @@
 from random import randint
 from random import shuffle
 
-from .card import Card
-from .logger import Logger
+from card import Card
+from logger import Logger
 
 
 class Deck:
@@ -28,7 +28,9 @@ class Deck:
     def get_card(self):
         Logger.log("Deck: Pulling card from the deck.")
         length = len(self.deck)
-        rand_card = randint(0, length)
+        Logger.log("Deck: Length of deck is: " + str(length))
+        rand_card = randint(0, (length - 1))
+        Logger.log("Deck: Random card is: " + str(rand_card))
         return (self.deck.pop(rand_card))
 
     def regenerate_deck(self):
