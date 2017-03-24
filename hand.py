@@ -25,7 +25,7 @@ class Hand:
         return results[:-3]
 
     def add_card(self, g_card):
-        Logger.log("Hand: add_card(Card) called. Adding a new card; current hand length is: " + str(len(self.hand)))
+        Logger.log("Hand: add_card(Card) called.")
         if (len(self.hand) < 2):
             self.hand.append(g_card)
         else:

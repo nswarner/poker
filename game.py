@@ -27,7 +27,6 @@ class Game:
         b_card = self.deck.get_card()
         o_hand.add_card(a_card)
         o_hand.add_card(b_card)
-        Logger.log("Hand: " + str(o_hand))
         self.hands.append(o_hand)
 
     def pull_community_cards(self):
@@ -47,43 +46,68 @@ class Game:
             results += self.hands[i].hand_to_string() + "\n"
         return results
 
-    def main(self):
+    def main(self, automate=False, rounds=0, hands=0):
 
         acceptable_input = False
         num_hands = None
         self.hands = []
         self.community_cards = []
+        continuous_run = True
 
-        Logger.log("Game: Initialized game. Running.")
+        if (not automate):
+            while(continuous_run):
+                acceptable_input = False
+                self.hands.clear()
+                self.community_cards.clear()
+                self.deck.regenerate_deck()
 
-        while(not acceptable_input):
-            num_hands = input("How many players are there? ")
-            try:
-                if (1 < int(num_hands) < 10):
-                    Logger.log("Game: num_hands == " + str(num_hands))
-                    acceptable_input = True
-                    num_hands = int(num_hands)
-            except ValueError as e:
-                Logger.log("Game: int(num_hands) threw ValueError; trying as String [" + str(num_hands) + "]")
-                try:
-                    num_hands = Util.convert_string_num(str(num_hands))
-                    if (1 < num_hands < 10):
-                        Logger.log("Game: convert_string_num(num_hands) succeeded.")
-                        acceptable_input = True
-                except InvalidArgumentException as ignore:
-                    Logger.log("Game: num_hands failed as int() and str(). Retrying.")
-            if (not acceptable_input):
-                print("Invalid input. The number of players must be between 2 and 9.");
+                Logger.log("Game: Initialized game. Running.")
 
-        Logger.log("Game: There are " + str(num_hands) + " playing.")
+                while(not acceptable_input):
+                    num_hands = input("How many players are there? ")
+                    try:
+                        if (1 < int(num_hands) < 10):
+                            Logger.log("Game: num_hands == " + str(num_hands))
+                            acceptable_input = True
+                            num_hands = int(num_hands)
+                    except ValueError as e:
+                        Logger.log("Game: int(num_hands) threw ValueError; trying as String [" + str(num_hands) + "]")
+                        try:
+                            num_hands = Util.convert_string_num(str(num_hands))
+                            if (1 < num_hands < 10):
+                                Logger.log("Game: convert_string_num(num_hands) succeeded.")
+                                acceptable_input = True
+                        except InvalidArgumentException as ignore:
+                            Logger.log("Game: num_hands failed as int() and str(). Retrying.")
+                    if (not acceptable_input):
+                        print("Invalid input. The number of players must be between 2 and 9.");
 
-        for i in range(0, num_hands):
-            Logger.log("Game: Adding hand for Player " + str(i))
-            self.add_hand()
+                Logger.log("Game: There are " + str(num_hands) + " playing.")
 
-        self.pull_community_cards()
-        print("Community cards are: " + self.community_cards_to_string())
-        print(self.all_hands_to_string())
+                for i in range(0, num_hands):
+                    Logger.log("Game: Adding hand for Player " + str(i))
+                    self.add_hand()
+
+                self.pull_community_cards()
+                print("Community cards are: " + self.community_cards_to_string())
+                print(self.all_hands_to_string())
+
+                user_input = input("Run another simulation(y/n)? ")
+                if ('y' not in user_input.lower()):
+                    continuous_run = False
+        '''
+        else:
+            for c in range (0, rounds):
+                self.hands.clear()
+                self.community_cards.clear()
+                for i in range(0, hands):
+                    Logger.log("Game: Adding hand for Player " + str(i))
+                    self.add_hand()
+
+                self.pull_community_cards()
+                print("Community cards are: " + self.community_cards_to_string())
+                print(self.all_hands_to_string())
+        '''
 
 if (__name__ == '__main__'):
     Logger.log("Game: Launching game.")
