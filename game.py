@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+from time import time
+
 from card import Card
 from deck import Deck
 from hand import Hand
@@ -14,12 +16,13 @@ class Game:
     hands = None
     community_cards = None
 
-    def __init__(self):
+    def __init__(self, automate=False, rounds=0, hands=0):
+        Logger.initialize("poker.log")
         self.deck = Deck()
-        self.main()
+        self.main(automate, rounds, hands)
 
     def __del__(self):
-        pass
+        Logger.cleanup()
 
     def add_hand(self):
         o_hand = Hand(0)
@@ -80,7 +83,7 @@ class Game:
                         except InvalidArgumentException as ignore:
                             Logger.log("Game: num_hands failed as int() and str(). Retrying.")
                     if (not acceptable_input):
-                        print("Invalid input. The number of players must be between 2 and 9.");
+                        print("Invalid input. The number of players must be between 2 and 9.")
 
                 Logger.log("Game: There are " + str(num_hands) + " playing.")
 
@@ -95,11 +98,12 @@ class Game:
                 user_input = input("Run another simulation(y/n)? ")
                 if ('y' not in user_input.lower()):
                     continuous_run = False
-        '''
+
         else:
             for c in range (0, rounds):
                 self.hands.clear()
                 self.community_cards.clear()
+                self.deck.regenerate_deck()
                 for i in range(0, hands):
                     Logger.log("Game: Adding hand for Player " + str(i))
                     self.add_hand()
@@ -107,8 +111,11 @@ class Game:
                 self.pull_community_cards()
                 print("Community cards are: " + self.community_cards_to_string())
                 print(self.all_hands_to_string())
-        '''
+
 
 if (__name__ == '__main__'):
-    Logger.log("Game: Launching game.")
-    game = Game()
+    #game = Game()
+    start = time()
+    game = Game(True, 5, 3)
+    end = time()
+    print("Time elapsed: " + str(end - start))

@@ -1,7 +1,11 @@
 #!/usr/bin/python
 
+from time import time
+
 
 class Logger:
+
+    f = None
 
     def __init__(self):
         pass
@@ -10,6 +14,13 @@ class Logger:
         pass
 
     @staticmethod
-    def log(message, directory="./poker.log"):
-        with open(directory, "a+") as f:
-            f.write(str(message) + "\n")
+    def initialize(directory="./poker.log"):
+        Logger.f = open(directory, "a+")
+
+    @staticmethod
+    def log(msg):
+        Logger.f.write("[" + str(time()) + "] " + str(msg) + "\n")
+
+    @staticmethod
+    def cleanup():
+        Logger.f.close()
